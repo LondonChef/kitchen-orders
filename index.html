@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Orders</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <script type="module">
+    // --- Firebase v9 (modular) via CDN ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    // TODO: replace this config with YOURS from Firebase console (Step 1.4)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID",
+    };
+
+    // Boot
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Make db globally available for app.js
+    window.__FIREBASE__ = { app, auth, db, signInAnonymously, onAuthStateChanged };
+  </script>
+  <script defer type="module" src="app.js"></script>
+</head>
+<body>
+  <!-- Top totals bar -->
+  <div id="totalBar" class="total-bar">
+    <span id="totalPrice">Total: £0.00</span>
+    <span id="bankBalance">Bank: £500.00</span> <!-- demo value -->
+  </div>
+
+  <main class="container">
+    <h2>Daily Orders</h2>
+
+    <!-- Section chooser -->
+    <label for="sectionSelect" class="sr-only">Select Section</label>
+    <select id="sectionSelect" class="select">
+      <option value="">Select Section</option>
+      <option value="Grill">Grill</option>
+      <option value="Fryer">Fryer</option>
+      <option value="Pizza">Pizza</option>
+      <option value="Taco">Taco</option>
+      <option value="Larder">Larder</option>
+      <option value="Pastry">Pastry</option>
+      <option value="Prep">Prep</option>
+      <option value="Breakfast">Breakfast</option>
+      <option value="Manager">Manager</option>
+    </select>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <input id="searchInput" class="input" placeholder="Search products…" />
+    </div>
+
+    <!-- Product list -->
+    <div id="list"></div>
+
+    <!-- Save -->
+    <div class="save-wrap">
+      <button id="saveBtn" class="btn">Save Order</button>
+    </div>
+
+    <!-- Confirmation -->
+    <div id="confirm" class="confirm hidden"></div>
+  </main>
+</body>
+</html>
 
